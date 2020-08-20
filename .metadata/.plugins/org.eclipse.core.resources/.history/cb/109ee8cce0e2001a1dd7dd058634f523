@@ -1,0 +1,5 @@
+package rot;
+
+public class MinRunnable extends ThreadGroup {
+
+}

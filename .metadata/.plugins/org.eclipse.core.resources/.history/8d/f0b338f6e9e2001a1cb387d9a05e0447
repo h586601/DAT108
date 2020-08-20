@@ -1,0 +1,6 @@
+
+public class Teller {
+	
+	public int verdi = 0;
+	
+}
