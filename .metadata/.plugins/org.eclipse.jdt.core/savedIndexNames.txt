@@ -1,4 +1,8 @@
 INDEX VERSION 1.131+C:\Ida\Skole\Høst 2020\DAT108 Programmering og webapplikasjoner\Eclipseprogrammer\.metadata\.plugins\org.eclipse.jdt.core
-1131153198.index
-1292098181.index
+142001141.index
 3271628371.index
+1292098181.index
+1131153198.index
+2063124223.index
+3681501774.index
+1248545562.index
