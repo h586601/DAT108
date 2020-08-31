@@ -1,31 +1,50 @@
 package oblig1.q2;
 
+import java.util.Random;
+
 public class ChefThread extends Thread {
 
-	private BurgerSlide slide;
-	private int chefNo;
+	private Chef chef;
+	private Slide hamburgerQueue;
+	Random rand = new Random();
 
-	public ChefThread(int chefNo) {
-		this.chefNo = chefNo;
+	public ChefThread(Chef chef, Slide hamburgerQueue) {
+		this.chef = chef;
+		this.hamburgerQueue = hamburgerQueue;
+	}
+
+	public String getChefName() {
+		return chef.getName();
 	}
 
 	@Override
-	public void run() {
-		if(slide.isEmpty()) {
-			System.out.println("### Kokk"+getChefNo()+" er klar med en hamburger, men rutsjebanen er full. Venter! ###");
+	public synchronized void run() {
+		while (true) {
+			int randSeconds = rand.nextInt(4000);
+			boolean lagtTil = false;
 			try {
-				wait();
+				sleep(randSeconds + 2000);
 			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+			synchronized (hamburgerQueue) {
+				while (!lagtTil) {
+					if (!hamburgerQueue.erFull()) {
+						lagtTil = hamburgerQueue.leggTil();
+						System.out.print(getChefName() + " har laget burger: [" + hamburgerQueue.getAntall() + "] \t=>\t");
+						hamburgerQueue.printElementer();
+						hamburgerQueue.notifyAll();
+					} else {
+						try {
+							System.out.println("### Køen er nå full! Kokken " + getChefName() + " venter ###");
+							hamburgerQueue.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} // synchronized()
 		}
-		
-		System.out.println("Kokk"+getChefNo()+" legger på hamburger");
-		slide.innKoe(slide.lastNo());
-	}
-
-	
-	public int getChefNo() {
-		return chefNo;
 	}
 
 	public int getRandomNumber() {
